@@ -34,7 +34,7 @@
             <div class="col-md-12" id="recherche">
                 <label>
                     Nom : 
-                    <select >
+                    <select v-model="espece">
                         <option value="Dactyle"> Dactyle </option>
                         <option value="Saule" > Saule </option>
                         <option value="Plantain" > Plantain </option>
@@ -55,7 +55,7 @@
 
                 <label>
                     Type : 
-                    <select >
+                    <select v-model="sousType">
                         <option value="Graminee"> Graminée </option>
                         <option value="Autre" > Autre </option>
                     </select>  
@@ -65,8 +65,9 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-2">
-                    <pre>{{response.records[0].fields.nom}}</pre>
+                <div class="col-md-3">
+                    <p> {{espece}}  {{sousType}}</p>
+                    <pre> Numéro 1 : {{response.records[0].fields}}</pre>
                 </div>
             </div>
         </div> 
@@ -82,7 +83,9 @@
             var pollen = new Vue ({
                 el: "#main",
                 data: {  
-                    response: null 
+                    response: [],
+                    sousType: "",
+                    espece: "" 
                 },
 
                 created: function () {
