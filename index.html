@@ -111,11 +111,11 @@
                     },
                     compareType: function (){
                         var i=0;
-                        while (response.records[i].fields.sous_type === "Graminee" && i<10){
+                        if (response.records[i].fields.nom === espece){
                             console.log(response.records[i].fields.nom)
-                            i= i++
+                        i= i++ 
                         }
-                    }                    
+                    },                  
                 }
             })
     </script>
