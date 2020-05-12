@@ -67,7 +67,8 @@
             <div class="col-md-12">
                 <div class="col-md-3">
                     <p> {{espece}}  {{sousType}}</p>
-                    <pre> Numéro 1 : {{response.records[0].fields}}</pre>
+                    <!-- <pre> Numéro 1 : {{response.records[0].fields}} </pre> -->
+                    <pre> Numéro 1 : {{ compareType() }} </pre>
                 </div>
             </div>
         </div> 
@@ -78,7 +79,7 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
             ///api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date 
-
+            
             var lienURL = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date"
             var pollen = new Vue ({
                 el: "#main",
@@ -108,6 +109,16 @@
                             console.log("error");
                         })
                     },
+                    compareType: function(){
+                        for (var i=0; i < response.length; i++){
+                            if(sousType === response.records[i].fields.type){
+                                console.log(response.records[i].fields.type)
+                            }
+                            else {
+                                console.log("pas trouvé")
+                            }
+                        }
+                    }
                 }
             })
     </script>
