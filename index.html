@@ -68,7 +68,7 @@
                 <div class="col-md-3">
                     <p> {{espece}}  {{sousType}}</p>
                     <!-- <pre> Numéro 1 : {{response.records[0].fields}} </pre> -->
-                    <pre> Numéro 1 : {{ compareType() }} </pre>
+                    <pre> Numéro 1 : {{ response.records[0].fields.type }} </pre>
                 </div>
             </div>
         </div> 
@@ -102,23 +102,20 @@
                         axios
                         .get(lienURL)
                         .then(function (response) {
-                            console.log(response)
+                            //console.log (response)
                             self.response = response.data;    
                         })
                         .catch(function(error){
                             console.log("error");
                         })
                     },
-                    compareType: function(){
-                        for (var i=0; i < response.length; i++){
-                            if(sousType === response.records[i].fields.type){
-                                console.log(response.records[i].fields.type)
-                            }
-                            else {
-                                console.log("pas trouvé")
-                            }
+                    compareType: function (){
+                        var i=0;
+                        while (response.records[i].fields.sous_type === "Graminee" && i<10){
+                            console.log(response.records[i].fields.nom)
+                            i= i++
                         }
-                    }
+                    }                    
                 }
             })
     </script>
