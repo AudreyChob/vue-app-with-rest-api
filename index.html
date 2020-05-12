@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Alerte Pollen Nantes Métropole</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <!-- Feuille de style -->
+    <style>
+        #recherche{
+            margin-left: 10%;
+            margin-top: 5%;
+        }
+        h1{
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    
+
+    <div class="container-flex" id="rep" >
+        <div class="row">
+            <div class="col-md-12" id="titre">
+                <h1>  Alerte pollen  </h1>
+                <h1> Nantes métropole</h1>     
+            </div>
+        </div>
+        <div class="row text-left">
+            <div class="col-md-12" id="recherche">
+                <label>
+                    Nom : 
+                    <select >
+                        <option value="Dactyle"> Dactyle </option>
+                        <option value="Saule" > Saule </option>
+                        <option value="Plantain" > Plantain </option>
+                        <option value="Houlque" > Houlque </option>
+                        <option value="Aulne" > Aulne </option>
+                        <option value="Frêne" > Frêne </option>
+                        <option value="Chêne" > Chêne </option>
+                        <option value="Fléole" > Fléole </option>
+                        <option value="Bouleau" > Bouleau </option>
+                        <option value="Vulpin" > Vulpin </option>
+                        <option value="Graminée" > Graminée </option>
+                        <option value="Noisetier" > Noisetier </option>
+                        <option value="Armoise" > Armoise </option>
+                        <option value="Flouve" > Flouve </option>
+                        <option value="Fromental" > Fromental </option>
+                    </select>  
+                </label>
+
+                <label>
+                    Type : 
+                    <select >
+                        <option value="Graminee"> Graminée </option>
+                        <option value="Autre" > Autre </option>
+                    </select>  
+                </label>  
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <pre>{{response}}</pre>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            ///api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date 
+
+            var lienURL = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date"
+            var pollen = new Vue ({
+                el: "#rep",
+                data: {  
+                    response: [] 
+                },
+                
+                methods: {
+                    created () {
+                        var self = this
+                        axios
+                        .get(lienURL + self)
+                        .then(function (response) {
+                            self.response = response.data;
+                            console.log(data);
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
+                        //console.log(this.infos);
+                    },
+                }
+            })
+    </script>
+</body>
+</html>
