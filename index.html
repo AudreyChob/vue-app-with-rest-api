@@ -1,123 +1,137 @@
 <!DOCTYPE html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Alerte Pollen Nantes Métropole</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Alerte Pollen Nantes Métropole</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
-    <!-- Feuille de style -->
-    <style>
-        #recherche{
-            margin-left: 10%;
-            margin-top: 5%;
-        }
-        h1{
-            text-align: center;
-        }
+        <!-- Feuille de style -->
+        <style>
+            #recherche{
+                margin-left: 10%;
+                margin-top: 5%;
+            }
+            h1{
+                text-align: center;
+            }
 
-    </style>
-</head>
+        </style>
+    </head>
 
-<body>
-    
+    <body>
+        
 
-    <div class="container-flex" id="main" >
-        <div class="row">
-            <div class="col-md-12" id="titre">
-                <h1>  Alerte pollen  </h1>
-                <h1> Nantes métropole</h1>     
-            </div>
-        </div>
-        <div class="row text-left">
-            <div class="col-md-12" id="recherche">
-                <label>
-                    Nom : 
-                    <select v-model="espece">
-                        <option value="Dactyle"> Dactyle </option>
-                        <option value="Saule" > Saule </option>
-                        <option value="Plantain" > Plantain </option>
-                        <option value="Houlque" > Houlque </option>
-                        <option value="Aulne" > Aulne </option>
-                        <option value="Frêne" > Frêne </option>
-                        <option value="Chêne" > Chêne </option>
-                        <option value="Fléole" > Fléole </option>
-                        <option value="Bouleau" > Bouleau </option>
-                        <option value="Vulpin" > Vulpin </option>
-                        <option value="Graminée" > Graminée </option>
-                        <option value="Noisetier" > Noisetier </option>
-                        <option value="Armoise" > Armoise </option>
-                        <option value="Flouve" > Flouve </option>
-                        <option value="Fromental" > Fromental </option>
-                    </select>  
-                </label>
-
-                <label>
-                    Type : 
-                    <select v-model="sousType">
-                        <option value="Graminee"> Graminée </option>
-                        <option value="Autre" > Autre </option>
-                    </select>  
-                </label>  
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-3">
-                    <p> {{espece}}  {{sousType}}</p>
-                    <!-- <pre> Numéro 1 : {{response.records[0].fields}} </pre> -->
-                    <pre> Numéro 1 : {{ response.records[0].fields.type }} </pre>
+        <div class="container-flex" id="main" >
+            <div class="row">
+                <div class="col-md-12" id="titre">
+                    <h1>  Alerte pollen  </h1>
+                    <h1> Nantes métropole</h1>     
                 </div>
             </div>
-        </div> 
-    </div>
+            <div class="row text-left">
+                <div class="col-md-12" id="recherche">
+                    <label>
+                        Nom : 
+                        <select v-model="espece">
+                            <option value="Dactyle"> Dactyle </option>
+                            <option value="Saule" > Saule </option>
+                            <option value="Plantain" > Plantain </option>
+                            <option value="Houlque" > Houlque </option>
+                            <option value="Aulne" > Aulne </option>
+                            <option value="Frêne" > Frêne </option>
+                            <option value="Chêne" > Chêne </option>
+                            <option value="Fléole" > Fléole </option>
+                            <option value="Bouleau" > Bouleau </option>
+                            <option value="Vulpin" > Vulpin </option>
+                            <option value="Graminée" > Graminée </option>
+                            <option value="Noisetier" > Noisetier </option>
+                            <option value="Armoise" > Armoise </option>
+                            <option value="Flouve" > Flouve </option>
+                            <option value="Fromental" > Fromental </option>
+                        </select>  
+                    </label>
+
+                    <label>
+                        Type : 
+                        <select v-model="sousType">
+                            <option value="Graminee"> Graminée </option>
+                            <option value="Autre" > Autre </option>
+                        </select>  
+                    </label>  
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <p> {{espece}}  {{sousType}}</p>
+                        <!-- <pre> Numéro 1 : {{response.records[0].fields}} </pre> 
+                        <pre > Numéro  : {{ response.records }} </pre>-->
+                        <div v-else>
+                            <div v-for="i in info" class="infos" > 
+                                <div class="col-md-12" id=container>
+                           
+                              Sites : {{i.fields.designation}} <br>
+                              Nature du site : {{i.fields.nature_site}} <br>
+                              Adresse du site : {{i.fields.adresse}} <br>
+                               <!-- <pre>{{i}}</pre>  -->
+
+                                </div>
+                            
+                          </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
 
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script>
-            ///api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date 
-            
-            var lienURL = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date"
-            var pollen = new Vue ({
-                el: "#main",
-                data: {  
-                    response: [],
-                    sousType: "",
-                    espece: "" 
-                },
-
-                created: function () {
-                    this.fetchData()
-                },
-               /* mounted: function(){
-                    this.fetchData()
-                },*/
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            <script>
+                ///api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date 
                 
-                methods: {
-                    fetchData: function(){
-                        var self = this
-                        axios
-                        .get(lienURL)
-                        .then(function (response) {
-                            //console.log (response)
-                            self.response = response.data;    
-                        })
-                        .catch(function(error){
-                            console.log("error");
-                        })
+                var lienURL = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date"
+                var pollen = new Vue ({
+                    el: "#main",
+                    data: {  
+                        response: [],
+                        sousType: "",
+                        espece: "" 
                     },
-                    compareType: function (){
-                        var i=0;
-                        if (response.records[i].fields.nom === espece){
-                            console.log(response.records[i].fields.nom)
-                        i= i++ 
-                        }
-                    },                  
-                }
-            })
-    </script>
-</body>
+
+                    created: function () {
+                        this.fetchData()
+                        
+                    },
+                /* mounted: function(){
+                        this.fetchData()
+                    },*/
+                    
+                    methods: {
+                        fetchData: function(){
+                            var self = this
+                            axios
+                            .get(lienURL)
+                            .then(function (response) {
+                                //console.log (response)
+                                self.response = response.data;    
+                                //console.debug(JSON.stringify(data))
+                            })
+                            .catch(function(error){
+                                console.log("error");
+                            })
+                        },
+                        compareType: function (){
+                            var i=0;
+                            if (response.records[i].fields.nom === espece){
+                                console.log(response.records[i].fields.nom)
+                            i= i++ 
+                            }
+                        },                  
+                    }
+                })
+        </script>
+    </body>
 </html>
