@@ -53,6 +53,16 @@
                         </select>  
                     </label>
 
+        <div class="row">
+            <div v-for="i in response" class="infos" > 
+                <div class="col-md-12" id=container>
+                    Nom : {{i.fields.nom}} <br>
+                    Type : {{i.fields.sous_type}} <br>
+                    Etat : {{i.fields.etat}} <br>
+                    <!-- <pre>{{i}}</pre>  -->
+                </div>
+        </div> 
+    </div>
                     <label>
                         Type : 
                         <select v-model="sousType">
@@ -63,12 +73,12 @@
                 </div>
             </div>
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-3">
                         <p> {{espece}}  {{sousType}}</p>
-                        <!-- <pre> Numéro 1 : {{response.records[0].fields}} </pre> 
-                        <pre > Numéro  : {{ response.records }} </pre>-->
+                         <pre> Numéro 1 : {{response.records[0].fields}} </pre> 
+                        <pre > Numéro  : {{ response.records }} </pre>
                         <div v-else>
                             <div v-for="i in info" class="infos" > 
                                 <div class="col-md-12" id=container>
@@ -76,7 +86,7 @@
                               Sites : {{i.fields.designation}} <br>
                               Nature du site : {{i.fields.nature_site}} <br>
                               Adresse du site : {{i.fields.adresse}} <br>
-                               <!-- <pre>{{i}}</pre>  -->
+                                <pre>{{i}}</pre>  
 
                                 </div>
                             
@@ -84,54 +94,56 @@
                     </div>
                 </div>
             </div> 
-        </div>
+        </div> -->
 
 
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
-            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-            <script>
-                ///api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            ///api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date 
+            
+            var lienURL = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&rows=15&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date "
+            
+            
+            var pollen = new Vue ({
+                el: "#main",
+                data: {  
+                    response: [],
+                    sousType: "",
+                    espece: "" 
+                },
+
+                /*created: function () {
+                    this.fetchData()
+                },*/
+                mounted: function(){
+                    this.fetchData()
+                },
                 
-                var lienURL = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=323266205_alertes-pollens-nantes&q=&facet=nom&facet=type&facet=sous_type&facet=etat&facet=date"
-                var pollen = new Vue ({
-                    el: "#main",
-                    data: {  
-                        response: [],
-                        sousType: "",
-                        espece: "" 
+                methods: {
+                    fetchData: function(){
+                        var self = this
+                        axios
+                        .get(lienURL)
+                        .then(function (response) {
+                            console.log (response.data.records.length)
+                            self.response = response.data.records;    
+                        })
+                        .catch(function(error){
+                            console.log("error");
+                        })
                     },
-
-                    created: function () {
-                        this.fetchData()
-                        
-                    },
-                /* mounted: function(){
-                        this.fetchData()
-                    },*/
-                    
-                    methods: {
-                        fetchData: function(){
-                            var self = this
-                            axios
-                            .get(lienURL)
-                            .then(function (response) {
-                                //console.log (response)
-                                self.response = response.data;    
-                                //console.debug(JSON.stringify(data))
-                            })
-                            .catch(function(error){
-                                console.log("error");
-                            })
-                        },
-                        compareType: function (){
-                            var i=0;
-                            if (response.records[i].fields.nom === espece){
-                                console.log(response.records[i].fields.nom)
-                            i= i++ 
+                    compareType: function (){
+                        var i=0;
+                        for(var i=0; i< response.data.records.length; i++){
+                            if(response.data.records[i].fields.nom == "Saule"){
+                                console.log(response.data.records[i].fields.nom);
                             }
-                        },                  
-                    }
-                })
-        </script>
-    </body>
+                        }
+                    },                 
+                }
+            })
+    </script>
+</body>
+
 </html>
