@@ -16,6 +16,13 @@
             h1{
                 text-align: center;
             }
+            #container {
+                border: solid 1px black;
+                max-width: 300 px;
+            }
+            #liste{
+                margin: 10%
+            }
 
         </style>
     </head>
@@ -34,7 +41,7 @@
                 <div class="col-md-12" id="recherche">
                     <label>
                         Nom : 
-                        <select v-model="espece">
+                        <select v-model="nom">
                             <option value="Dactyle"> Dactyle </option>
                             <option value="Saule" > Saule </option>
                             <option value="Plantain" > Plantain </option>
@@ -52,31 +59,42 @@
                             <option value="Fromental" > Fromental </option>
                         </select>  
                     </label>
-
-        <div class="row">
-            <div v-for="i in response" class="infos" > 
-                <div class="col-md-12" id=container>
-                    Nom : {{i.fields.nom}} <br>
-                    Type : {{i.fields.sous_type}} <br>
-                    Etat : {{i.fields.etat}} <br>
-                    <!-- <pre>{{i}}</pre>  -->
-                </div>
-        </div> 
-    </div>
-                    <label>
+<br>
+                    <!-- <label>
                         Type : 
                         <select v-model="sousType">
                             <option value="Graminee"> Graminée </option>
-                            <option value="Autre" > Autre </option>
+                            <option value=" " > Autre </option>
                         </select>  
-                    </label>  
+                    </label>   -->
                 </div>
             </div>
+
+<!-- EN FONCTION DU NOM CHERCHÉ -->
+            <div class="row" id="liste" v-for="i in response" class="infos" > 
+                <div class="col-sm-12" id=container v-if="i.fields.nom === nom">
+                    Nom : {{i.fields.nom}} <br>
+                    Type : {{i.fields.sous_type}} <br>
+                    Etat : {{i.fields.etat}} <br>
+
+                </div>
+            </div>  
+
+<!-- EN FONCTION DU TYPE CHERCHÉ -->
+            <!-- <div class="row" id="liste" v-for="i in response" class="infos" > 
+                <div class="col-sm-12" id=container v-if="i.fields.sous_type === sousType">
+                    Nom : {{i.fields.nom}} <br>
+                    Type : {{i.fields.sous_type}} <br>
+                    Etat : {{i.fields.etat}} <br>
+                   
+                </div>
+            </div> 
+ -->
 
             <!-- <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-3">
-                        <p> {{espece}}  {{sousType}}</p>
+                        <p> {{nom}}  {{sousType}}</p>
                          <pre> Numéro 1 : {{response.records[0].fields}} </pre> 
                         <pre > Numéro  : {{ response.records }} </pre>
                         <div v-else>
@@ -110,8 +128,18 @@
                 data: {  
                     response: [],
                     sousType: "",
-                    espece: "" 
+                    nom: "", 
+                    color: "",
                 },
+                computed :{
+                    classObject: function () {
+                        return {
+                            'green': this.response.data.records.fields.etat <= 3,
+                            'orange': this.response.data.records.fields.etat>3 && this.response.data.records.fields.etat <= 6,
+                            'red' : response.data.records.fields.etat >6,
+                        }
+                    }
+                } ,
 
                 /*created: function () {
                     this.fetchData()
@@ -126,19 +154,27 @@
                         axios
                         .get(lienURL)
                         .then(function (response) {
-                            console.log (response.data.records.length)
-                            self.response = response.data.records;    
+                            //console.log (response.data.records.length) 
+                            self.response = response.data.records;
+                               
                         })
                         .catch(function(error){
                             console.log("error");
                         })
                     },
-                    compareType: function (){
-                        var i=0;
-                        for(var i=0; i< response.data.records.length; i++){
-                            if(response.data.records[i].fields.nom == "Saule"){
-                                console.log(response.data.records[i].fields.nom);
-                            }
+                    compareEtat: function (){
+                        var self = this
+                        if(response.data.records.fields.etat <= 3){
+                            self.color = "green";
+                            document.getElementById("container").style.backgroundColor = "green";
+                        }
+                        else if (this.response.data.records.fields.etat > 3 && this.response.data.records.fields.etat <= 6){
+                            self.color = "orange";
+                            document.getElementById("container").style.backgroundColor = "orange";
+                        }
+                        else{
+                            self.color = "red";
+                            document.getElementById("container").style.backgroundColor = "red";
                         }
                     },                 
                 }
