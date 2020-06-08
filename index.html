@@ -20,8 +20,22 @@
                 border: solid 1px black;
                 max-width: 300 px;
             }
-            #liste{
-                margin: 10%
+            #containerNom {
+                border: solid 1px black;
+                max-width: 300 px;
+                
+            }
+            #listeNom{
+                margin: 10%;
+            }
+            #listeComplete {
+                display: none; 
+               margin-top: -150%;
+               margin-left: 10%;
+               margin-right: 10%;
+            }
+            #listeType{
+                margin: 10%;
             }
 
         </style>
@@ -60,36 +74,40 @@
                         </select>  
                     </label>
 <br>
-                    <!-- <label>
-                        Type : 
-                        <select v-model="sousType">
-                            <option value="Graminee"> Graminée </option>
-                            <option value=" " > Autre </option>
-                        </select>  
-                    </label>   -->
+                    <button > Voir les graminées</button>
+                    <button v-on:click="displayAll()"> Voir tout </button>
                 </div>
             </div>
 
 <!-- EN FONCTION DU NOM CHERCHÉ -->
-            <div class="row" id="liste" v-for="i in response" class="infos" > 
-                <div class="col-sm-12" id=container v-if="i.fields.nom === nom">
+            <!-- <div class="row" id="listeNom" style="background-color: color" v-for="i in response" class="infos" > 
+                <div class="col-sm-12" id=container v-if="i.fields.nom === nom" >
                     Nom : {{i.fields.nom}} <br>
                     Type : {{i.fields.sous_type}} <br>
                     Etat : {{i.fields.etat}} <br>
-
                 </div>
-            </div>  
+            </div>   -->
 
-<!-- EN FONCTION DU TYPE CHERCHÉ -->
-            <!-- <div class="row" id="liste" v-for="i in response" class="infos" > 
-                <div class="col-sm-12" id=container v-if="i.fields.sous_type === sousType">
+<!-- EN FONCTION DU NOM CHERCHÉ -->
+             <div class="row" id="listeType" v-for="i in response" class="infos" > 
+                <div class="col-sm-12" id=containerNom v-if="i.fields.nom === nom" >
                     Nom : {{i.fields.nom}} <br>
                     Type : {{i.fields.sous_type}} <br>
                     Etat : {{i.fields.etat}} <br>
-                   
+                </div>
+            </div>   
+
+<!-- TOUS LES RESULTATS -->
+            <div class="row"  id="listeComplete"  class="infos" > 
+                <div class="col-sm-12" id="container"  :style="'background-color:'+ changeBackgroundColor()" v-for="i in response" > 
+                    <!-- <pre>{{response}}</pre> -->
+                    Nom : {{i.fields.nom}} <br>                
+                    Etat : {{i.fields.etat}} <br>   
+                    Sous-type : {{i.fields.sous_type}}  <br>
+                    Date : {{i.fields.date}} <br>              
                 </div>
             </div> 
- -->
+
 
             <!-- <div class="row">
                 <div class="col-md-12">
@@ -103,11 +121,9 @@
                            
                               Sites : {{i.fields.designation}} <br>
                               Nature du site : {{i.fields.nature_site}} <br>
-                              Adresse du site : {{i.fields.adresse}} <br>
-                                <pre>{{i}}</pre>  
-
-                                </div>
-                            
+                              Adresse du site : {{i.fields.adresse}} <br>-->
+                                <pre>{{response.records}}</pre>  
+                                <!-- </div>                            
                           </div>
                     </div>
                 </div>
@@ -127,20 +143,10 @@
                 el: "#main",
                 data: {  
                     response: [],
-                    sousType: "",
+                    etat: "",
                     nom: "", 
-                    color: "",
+                    
                 },
-                computed :{
-                    classObject: function () {
-                        return {
-                            'green': this.response.data.records.fields.etat <= 3,
-                            'orange': this.response.data.records.fields.etat>3 && this.response.data.records.fields.etat <= 6,
-                            'red' : response.data.records.fields.etat >6,
-                        }
-                    }
-                } ,
-
                 /*created: function () {
                     this.fetchData()
                 },*/
@@ -150,33 +156,55 @@
                 
                 methods: {
                     fetchData: function(){
-                        var self = this
+                        var self = this;                        
                         axios
                         .get(lienURL)
                         .then(function (response) {
-                            //console.log (response.data.records.length) 
+                            
                             self.response = response.data.records;
-                               
+                            //test = JSON.parse(self.response);
+                            console.log(self.response[0].fields.etat);
                         })
                         .catch(function(error){
                             console.log("error");
-                        })
+                        })                        
                     },
-                    compareEtat: function (){
-                        var self = this
-                        if(response.data.records.fields.etat <= 3){
-                            self.color = "green";
-                            document.getElementById("container").style.backgroundColor = "green";
+                    displayAll(){
+                        document.getElementById("listeComplete").style.display = "flex";
+                    },  
+                    changeBackgroundColor() {    
+                        //let doc = document.body.style;    
+                        
+                        switch (this.etat) {
+                            case "1":
+                            case "2":
+                            return "greenyellow";
+                            break;
+
+                            case "3":
+                            return "yellow";
+                            break;
+
+                            case "4":
+                            case "5":
+                            return "orange";
+                            break;
+
+                            case "6":
+                            case "7":
+                            case "8":
+                            return "orangered";
+                            break;
+
+                            case "9":
+                            case "10":
+                            return "red";
+                            break;
+
+                            default:
+                            return 'white';
                         }
-                        else if (this.response.data.records.fields.etat > 3 && this.response.data.records.fields.etat <= 6){
-                            self.color = "orange";
-                            document.getElementById("container").style.backgroundColor = "orange";
-                        }
-                        else{
-                            self.color = "red";
-                            document.getElementById("container").style.backgroundColor = "red";
-                        }
-                    },                 
+                    }
                 }
             })
     </script>
