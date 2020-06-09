@@ -30,7 +30,7 @@
             #recherche{
                 margin-left: 10%;
                 margin-top: 5%;
-                display: none;
+                display: flex;
             }
             h1{
                 margin-top: 2%;
@@ -47,6 +47,12 @@
                 margin-left: 10%; 
                 margin-right: 10%;    
             }
+            #listeNom{
+                display: flex;
+                margin-left: 10%; 
+                margin-right: 10%; 
+                border-color: crimson;   
+            }
             p{
                 margin:1%
             }
@@ -57,13 +63,15 @@
                 }
                 #recherche{
                     display: flex;
-                }
-
-            
+                }            
             }
             @media screen and (min-width: 980px){
                 #listeComplete {
                     display: flex;
+                    margin-top: 5%
+                }
+                #recherche{
+                    display: none;
                 }
             }
         </style>
@@ -92,7 +100,7 @@
 <!-- EN FONCTION DU NOM CHERCHÉ -->
             <div class="row"  id="listeNom"  class="infos" > 
                 <div class=" offset-xs-2 col-sm-4  col-md-4 col-lg-2  mx-2 " style=" border: solid 1px black;
-                margin-top: 1%;"  :class="changeBackgroundColor(i.fields.etat)" v-for="i in response" v-if="nom === i.fields.nom"> 
+                margin-top: 1%;"  :class="changeBackgroundColor(i.fields.etat)" class="itemsNom" v-for="i in response" v-if="nom === i.fields.nom"> 
                     <!-- <pre>{{response}}</pre> -->
                     <p>Nom : {{i.fields.nom}}</p>                
                     <p>Etat : {{i.fields.etat}} </p>  
