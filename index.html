@@ -9,6 +9,18 @@
 
         <!-- Feuille de style -->
         <style>
+            .yellow{
+                background-color: yellow;
+            }
+            .green{
+                background-color: greenyellow;
+            }
+            .orange{
+                background-color: orange;
+            }
+            .red{
+                background-color: red;
+            }
             #recherche{
                 margin-left: 10%;
                 margin-top: 5%;
@@ -18,25 +30,14 @@
             }
             #container {
                 border: solid 1px black;
-                max-width: 300 px;
-            }
-            #containerNom {
-                border: solid 1px black;
-                max-width: 300 px;
-                
-            }
-            #listeNom{
-                margin: 10%;
             }
             #listeComplete {
-                display: none; 
-               margin-top: -150%;
-               margin-left: 10%;
-               margin-right: 10%;
+                display: flex; 
+                /*margin-right: 10%; 
+                margin-top: -150%;
+                margin-left: 10%;*/                
             }
-            #listeType{
-                margin: 10%;
-            }
+            
 
         </style>
     </head>
@@ -56,26 +57,12 @@
                     <label>
                         Nom : 
                         <select v-model="nom">
-                            <option value="Dactyle"> Dactyle </option>
-                            <option value="Saule" > Saule </option>
-                            <option value="Plantain" > Plantain </option>
-                            <option value="Houlque" > Houlque </option>
-                            <option value="Aulne" > Aulne </option>
-                            <option value="Frêne" > Frêne </option>
-                            <option value="Chêne" > Chêne </option>
-                            <option value="Fléole" > Fléole </option>
-                            <option value="Bouleau" > Bouleau </option>
-                            <option value="Vulpin" > Vulpin </option>
-                            <option value="Graminée" > Graminée </option>
-                            <option value="Noisetier" > Noisetier </option>
-                            <option value="Armoise" > Armoise </option>
-                            <option value="Flouve" > Flouve </option>
-                            <option value="Fromental" > Fromental </option>
+                            <option v-for=" e in liste" :value="e">{{e}}</option>
                         </select>  
                     </label>
 <br>
-                    <button > Voir les graminées</button>
-                    <button v-on:click="displayAll()"> Voir tout </button>
+                    <!-- <button > Voir les graminées</button> 
+                    <button v-on:click="displayAll()"> Voir tout </button>-->
                 </div>
             </div>
 
@@ -88,18 +75,18 @@
                 </div>
             </div>   -->
 
-<!-- EN FONCTION DU NOM CHERCHÉ -->
+<!-- EN FONCTION DU NOM CHERCHÉ 
              <div class="row" id="listeType" v-for="i in response" class="infos" > 
-                <div class="col-sm-12" id=containerNom v-if="i.fields.nom === nom" >
+                <div class="col-md-6 col-lg-4 mx-2" id=containerNom v-if="i.fields.nom === nom" >
                     Nom : {{i.fields.nom}} <br>
                     Type : {{i.fields.sous_type}} <br>
                     Etat : {{i.fields.etat}} <br>
                 </div>
-            </div>   
+            </div>   -->
 
 <!-- TOUS LES RESULTATS -->
             <div class="row"  id="listeComplete"  class="infos" > 
-                <div class="col-sm-12" id="container"  :style="'background-color:'+ changeBackgroundColor()" v-for="i in response" > 
+                <div class="offset-sm-2 col-sm-6 offset-sm-2 col-md-4 offset-md-3 mx-2 " id="container"  :class="changeBackgroundColor(i.fields.etat)" v-for="i in response" > 
                     <!-- <pre>{{response}}</pre> -->
                     Nom : {{i.fields.nom}} <br>                
                     Etat : {{i.fields.etat}} <br>   
@@ -145,6 +132,8 @@
                     response: [],
                     etat: "",
                     nom: "", 
+                    display: false,
+                    liste : [],
                     
                 },
                 /*created: function () {
@@ -162,8 +151,11 @@
                         .then(function (response) {
                             
                             self.response = response.data.records;
-                            //test = JSON.parse(self.response);
-                            console.log(self.response[0].fields.etat);
+                            self.display = true;
+                            //self.etat = self.response[i].fields.etat;
+                            //this.etat = self.etat;
+                            self.liste = response.data.records.map(i=> i.fields.nom);
+                            self.liste = [...new Set(self.liste)];
                         })
                         .catch(function(error){
                             console.log("error");
@@ -172,32 +164,30 @@
                     displayAll(){
                         document.getElementById("listeComplete").style.display = "flex";
                     },  
-                    changeBackgroundColor() {    
-                        //let doc = document.body.style;    
-                        
-                        switch (this.etat) {
-                            case "1":
-                            case "2":
-                            return "greenyellow";
+                    changeBackgroundColor(etat) {    
+                            switch (etat) {
+                            case 1:
+                            case 2:
+                            return "green";
                             break;
 
-                            case "3":
+                            case 3:
                             return "yellow";
                             break;
 
-                            case "4":
-                            case "5":
+                            case 4:
+                            case 5:
                             return "orange";
                             break;
 
-                            case "6":
-                            case "7":
-                            case "8":
+                            case 6:
+                            case 7:
+                            case 8:
                             return "orangered";
                             break;
 
-                            case "9":
-                            case "10":
+                            case 9:
+                            case 10:
                             return "red";
                             break;
 
