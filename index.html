@@ -9,6 +9,12 @@
 
         <!-- Feuille de style -->
         <style>
+           body {
+                background-image: url(https://pic.clubic.com/v1/images/1789334/raw-accept?fit=max&width=1200&hash=02057227e49d1148f8ff0aec39d3f5859cfff068);
+                background-repeat: no-repeat;
+                background-size: 100%;
+                
+           }
             .yellow{
                 background-color: yellow;
             }
@@ -24,18 +30,45 @@
             #recherche{
                 margin-left: 10%;
                 margin-top: 5%;
+                display: none;
             }
             h1{
+                margin-top: 2%;
                 text-align: center;
+                color: white;
             }
-            #container {
+            #items {
                 border: solid 1px black;
+                margin-top: 1%;
+            }
+            #listeNom{
+                display: none;
             }
             #listeComplete {
-                display: flex; 
-                /*margin-right: 10%; 
-                margin-top: -150%;
-                margin-left: 10%;*/                
+                display: flex;
+                margin-left: 10%; 
+                margin-right: 10%;    
+            }
+            p{
+                margin:1%
+            }
+            
+            @media screen and (max-width: 530px){
+                #listeComplete {
+                    display: none;   
+                }
+                #recherche{
+                    display: flex;
+                }
+                #listeNom{
+                    display: flex;
+                }
+            
+            }
+            @media screen and (min-width: 980px){
+                #listeComplete {
+                    display: flex;
+                }
             }
             
 
@@ -53,7 +86,7 @@
                 </div>
             </div>
             <div class="row text-left">
-                <div class="col-md-12" id="recherche">
+                <div class="col" id="recherche">
                     <label>
                         Nom : 
                         <select v-model="nom">
@@ -66,32 +99,28 @@
                 </div>
             </div>
 
-<!-- EN FONCTION DU NOM CHERCHÉ -->
-            <!-- <div class="row" id="listeNom" style="background-color: color" v-for="i in response" class="infos" > 
-                <div class="col-sm-12" id=container v-if="i.fields.nom === nom" >
-                    Nom : {{i.fields.nom}} <br>
-                    Type : {{i.fields.sous_type}} <br>
-                    Etat : {{i.fields.etat}} <br>
-                </div>
-            </div>   -->
 
-<!-- EN FONCTION DU NOM CHERCHÉ 
-             <div class="row" id="listeType" v-for="i in response" class="infos" > 
-                <div class="col-md-6 col-lg-4 mx-2" id=containerNom v-if="i.fields.nom === nom" >
-                    Nom : {{i.fields.nom}} <br>
-                    Type : {{i.fields.sous_type}} <br>
-                    Etat : {{i.fields.etat}} <br>
+<!-- EN FONCTION DU NOM CHERCHÉ -->
+            <div class="row"  id="listeNom"  class="infos" > 
+                <div class=" offset-xs-2 col-sm-4  col-md-4 col-lg-2  mx-2 " style=" border: solid 1px black;
+                margin-top: 1%;"  :class="changeBackgroundColor(i.fields.etat)" v-for="i in response" v-if="nom === i.fields.nom"> 
+                    <!-- <pre>{{response}}</pre> -->
+                    <p>Nom : {{i.fields.nom}}</p>                
+                    <p>Etat : {{i.fields.etat}} </p>  
+                    <p>Sous-type : {{i.fields.sous_type}}  </p>
+                    <p>Date : {{i.fields.date}}    </p>          
                 </div>
-            </div>   -->
+            </div> 
 
 <!-- TOUS LES RESULTATS -->
             <div class="row"  id="listeComplete"  class="infos" > 
-                <div class="offset-sm-2 col-sm-6 offset-sm-2 col-md-4 offset-md-3 mx-2 " id="container"  :class="changeBackgroundColor(i.fields.etat)" v-for="i in response" > 
+                <div class=" offset-xs-2 col-sm-4  col-md-4 col-lg-2  mx-2 " style=" border: solid 1px black;
+                margin-top: 1%;"  :class="changeBackgroundColor(i.fields.etat)" v-for="i in response"> 
                     <!-- <pre>{{response}}</pre> -->
-                    Nom : {{i.fields.nom}} <br>                
-                    Etat : {{i.fields.etat}} <br>   
-                    Sous-type : {{i.fields.sous_type}}  <br>
-                    Date : {{i.fields.date}} <br>              
+                    <p>Nom : {{i.fields.nom}}</p>                
+                    <p>Etat : {{i.fields.etat}} </p>  
+                    <p>Sous-type : {{i.fields.sous_type}}  </p>
+                    <p>Date : {{i.fields.date}}    </p>          
                 </div>
             </div> 
 
@@ -134,6 +163,7 @@
                     nom: "", 
                     display: false,
                     liste : [],
+                    zoom: false,
                     
                 },
                 /*created: function () {
@@ -193,6 +223,11 @@
 
                             default:
                             return 'white';
+                        }
+                    },
+                    zoomCard(nom){
+                        if(nom = liste.nom){
+                            zoom= true;
                         }
                     }
                 }
