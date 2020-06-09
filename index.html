@@ -13,7 +13,7 @@
                 background-image: url(https://pic.clubic.com/v1/images/1789334/raw-accept?fit=max&width=1200&hash=02057227e49d1148f8ff0aec39d3f5859cfff068);
                 background-repeat: no-repeat;
                 background-size: 100%;
-                
+                background-attachment: fixed;    
            }
             .yellow{
                 background-color: yellow;
@@ -41,9 +41,7 @@
                 border: solid 1px black;
                 margin-top: 1%;
             }
-            #listeNom{
-                display: none;
-            }
+
             #listeComplete {
                 display: flex;
                 margin-left: 10%; 
@@ -54,15 +52,13 @@
             }
             
             @media screen and (max-width: 530px){
-                #listeComplete {
-                    display: none;   
+                body{
+                    background-size: 200%;
                 }
                 #recherche{
                     display: flex;
                 }
-                #listeNom{
-                    display: flex;
-                }
+
             
             }
             @media screen and (min-width: 980px){
@@ -70,14 +66,10 @@
                     display: flex;
                 }
             }
-            
-
         </style>
     </head>
 
     <body>
-        
-
         <div class="container-flex" id="main" >
             <div class="row">
                 <div class="col-md-12" id="titre">
@@ -93,9 +85,6 @@
                             <option v-for=" e in liste" :value="e">{{e}}</option>
                         </select>  
                     </label>
-<br>
-                    <!-- <button > Voir les graminées</button> 
-                    <button v-on:click="displayAll()"> Voir tout </button>-->
                 </div>
             </div>
 
@@ -125,27 +114,6 @@
             </div> 
 
 
-            <!-- <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-3">
-                        <p> {{nom}}  {{sousType}}</p>
-                         <pre> Numéro 1 : {{response.records[0].fields}} </pre> 
-                        <pre > Numéro  : {{ response.records }} </pre>
-                        <div v-else>
-                            <div v-for="i in info" class="infos" > 
-                                <div class="col-md-12" id=container>
-                           
-                              Sites : {{i.fields.designation}} <br>
-                              Nature du site : {{i.fields.nature_site}} <br>
-                              Adresse du site : {{i.fields.adresse}} <br>-->
-                                <pre>{{response.records}}</pre>  
-                                <!-- </div>                            
-                          </div>
-                    </div>
-                </div>
-            </div> 
-        </div> -->
-
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -163,7 +131,7 @@
                     nom: "", 
                     display: false,
                     liste : [],
-                    zoom: false,
+                    //zoom: false,
                     
                 },
                 /*created: function () {
@@ -191,9 +159,6 @@
                             console.log("error");
                         })                        
                     },
-                    displayAll(){
-                        document.getElementById("listeComplete").style.display = "flex";
-                    },  
                     changeBackgroundColor(etat) {    
                             switch (etat) {
                             case 1:
@@ -225,11 +190,6 @@
                             return 'white';
                         }
                     },
-                    zoomCard(nom){
-                        if(nom = liste.nom){
-                            zoom= true;
-                        }
-                    }
                 }
             })
     </script>
